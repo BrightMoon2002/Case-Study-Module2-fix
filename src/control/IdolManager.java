@@ -85,6 +85,17 @@ public class IdolManager implements IGeneralManager<Idol> {
         return idol;
     }
 
+    public int searchIndexById(String id) {
+        int index = -1;
+        for (int i = 0; i < idolList.size(); i++) {
+            if(idolList.get(i).getId().equals(id)){
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
+
     @Override
     public void showAllList() {
         for (Idol idol: idolList

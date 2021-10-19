@@ -13,11 +13,12 @@ import model.room.RoomFactory;
 import model.room.RoomType;
 import storage.*;
 
-import javax.print.DocFlavor;
+
 import java.time.LocalTime;
-import java.util.InputMismatchException;
+
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class MenuAdmin {
     public MenuAdmin() {
@@ -26,6 +27,7 @@ public class MenuAdmin {
     private static MenuLogin menuLogin = new MenuLogin();
 
     public static void menuAdmin() {
+        Pattern pattern = Pattern.compile("\\d{1,3}[-]\\d{1,3}[-]\\d{1,3}");
         IdolManager idolManager = new IdolManager();
         RoomManager roomManager = new RoomManager();
         CustomerManager customerManager = new CustomerManager();
@@ -81,77 +83,17 @@ public class MenuAdmin {
             int choice = inputChoice.nextInt();
             switch (choice) {
                 case 1:
-                    System.out.println("Enter the password you want to change:");
-                    Scanner inputPassword = new Scanner(System.in);
-                    String password = inputPassword.nextLine();
-                    userManager.changePassword(accountList.indexOf(account), password);
+                    changePasswordOfAccount(userManager, accountList, account);
                     break;
                 case 2:
-                    userManager.updateByIndex(accountList.indexOf(account), creatNewAccount());
+                    userManager.updateByIndex(accountList.indexOf(account), creatNewAccount(userManager));
                     break;
                 case 3:
-                    System.out.println("Enter the type of Idol (A, B or C):");
-                    Scanner inputType = new Scanner(System.in);
-                    String type = inputType.nextLine();
-                    System.out.println("Enter the stage name of idol:");
-                    Scanner inputStageName = new Scanner(System.in);
-                    String stageName = inputStageName.nextLine();
-                    String id;
-                    do {
-                        System.out.println("Enter the id of idol:");
-                        Scanner inputId = new Scanner(System.in);
-                        id = inputId.nextLine();
-                    } while (idolManager.searchById(id) != null);
-
-                    System.out.println("Enter the dob of idol:");
-                    Scanner inputDOB = new Scanner(System.in);
-                    String dOB = inputDOB.nextLine();
-                    System.out.println("Enter the idol height");
-                    double height = checkHeight(0, 300);
-                    System.out.println("Enter the Body Measurements");
-                    Scanner inputBody = new Scanner(System.in);
-                    String body = inputBody.nextLine();
-                    Idol idol = new Idol();
-                    if (type.equals("A")) {
-                        idol = IdolFactory.getIdol(IdolType.IDOLA, stageName, dOB, height, body, id);
-                        idolManager.saveList(idol);
-                    } else if (type.equals("B")) {
-                        idol = IdolFactory.getIdol(IdolType.IDOLB, stageName, dOB, height, body, id);
-                        idolManager.saveList(idol);
-                    } else if (type.equals("C")) {
-                        idol = IdolFactory.getIdol(IdolType.IDOLC, stageName, dOB, height, body, id);
-                        idolManager.saveList(idol);
-                    } else {
-                        System.out.println("No type of Idol is support");
-                    }
+                    creatNewIdol(idolManager, pattern);
 
                     break;
                 case 4:
-                    System.out.println("Enter the type of Room(VIP, DELUXE, KING");
-                    Scanner inputTypeRoom = new Scanner(System.in);
-                    String typeRoom = inputTypeRoom.nextLine();
-                    System.out.println("Enter the code of Room");
-                    Scanner inputCode = new Scanner(System.in);
-                    String code = inputCode.nextLine();
-                    Room room = new Room();
-                    switch (typeRoom) {
-                        case "VIP":
-                            room = RoomFactory.getRoom(RoomType.VIPROOM, code);
-                            roomManager.saveList(room);
-
-                            break;
-                        case "DELUXE":
-                            room = RoomFactory.getRoom(RoomType.DELUXERROOM, code);
-                            roomManager.saveList(room);
-                            break;
-                        case "KING":
-                            room = RoomFactory.getRoom(RoomType.KINGROOM, code);
-                            roomManager.saveList(room);
-                            break;
-                        default:
-                            System.out.println("NO TYPE ROOM LIKE THAT");
-                            break;
-                    }
+                    creatNewRoom(roomManager);
                     break;
                 case 5:
                     idolManager.showAllList();
@@ -163,71 +105,19 @@ public class MenuAdmin {
                     billManager.showAllList();
                     break;
                 case 8:
-                    System.out.println("Enter the id of Customer you want to check bill to pay today:");
-                    Scanner inputIdOfCustomer = new Scanner(System.in);
-                    String idOfCustomer = inputIdOfCustomer.nextLine();
-                    Bill bill = billManager.searchByName(userManager.searchById(idOfCustomer).getUsername());
-                    if (bill != null) {
-                        bill.setCheckout(LocalTime.now());
-                        System.out.println("Enter the code of Bill");
-                        Scanner inputCode1 = new Scanner(System.in);
-                        String code1 = inputCode1.nextLine();
-                        bill.setCode(code1);
-                        billManager.updateByIndex(billList.indexOf(bill), bill);
-                        System.out.println("the money  need to pay is: " + billManager.getBillList().get(billManager.getBillList().indexOf(bill)).getMoneyToPay());
-                        Idol idol1 = bill.getIdol();
-                        int index = idolManager.searchIndexByIdol(idol1);
-                        idol1.setStatus(false);
-                        if (index != -1) {
-                            idolManager.updateByIndex(index, idol1);
-                        } else {
-                            System.out.println("cant find this idol, index =-1");
-                        }
-                        Room room1 = bill.getRoom();
-                        int index1 = roomManager.searchIndexByRoom(room1);
-                        room1.setStatus(false);
-                        if (index != -1) {
-                            roomManager.updateByIndex(index1, room1);
-                        } else {
-                            System.out.println("cant find this idol, index =-1");
-                        }
-                    }
+                    checkoutBillByID(idolManager, roomManager, billManager, userManager, billList);
                     break;
                 case 9:
-                    System.out.println("Enter the id of user");
-                    Scanner inputID = new Scanner(System.in);
-                    String newId = inputID.nextLine();
-                    int index = userManager.searchIndexById(newId);
-                    if (index != -1) {
-                        userManager.removeByIndex(index);
-                    } else {
-                        System.out.println("No user have this id");
-                    }
+                    removeById(userManager);
                     break;
                 case 10:
-                    System.out.println("Enter the id of idol");
-                    Scanner newInputId = new Scanner(System.in);
-                    String newId1 = newInputId.nextLine();
-                    int index1 = userManager.searchIndexById(newId1);
-                    if (index1 != -1) {
-                        idolManager.removeByIndex(index1);
-                    } else {
-                        System.out.println("No idol have this id");
-                    }
+                    removeIdolById(idolManager, userManager);
                     break;
                 case 11:
-                    System.out.println("Enter the code of room");
-                    Scanner inputCode1 = new Scanner(System.in);
-                    String newCode = inputCode1.nextLine();
-                    int indexRoom = userManager.searchIndexById(newCode);
-                    if (indexRoom != -1) {
-                        userManager.removeByIndex(indexRoom);
-                    } else {
-                        System.out.println("No room have this code");
-                    }
+                    removeRoomById(userManager);
                     break;
                 case 12:
-                    userManager.saveList(creatNewAccount());
+                    userManager.saveList(creatNewAccount(userManager));
                     break;
                 case 0:
                     menuLogin.loginMenu();
@@ -237,7 +127,154 @@ public class MenuAdmin {
 
     }
 
-    private static Account creatNewAccount() {
+    private static void changePasswordOfAccount(AccountManager userManager, List<Account> accountList, Account account) {
+        System.out.println("Enter the password you want to change:");
+        Scanner inputPassword = new Scanner(System.in);
+        String password = inputPassword.nextLine();
+        userManager.changePassword(accountList.indexOf(account), password);
+    }
+
+    private static void removeRoomById(AccountManager userManager) {
+        System.out.println("Enter the code of room");
+        Scanner inputCode1 = new Scanner(System.in);
+        String newCode = inputCode1.nextLine();
+        int indexRoom = userManager.searchIndexById(newCode);
+        if (indexRoom != -1) {
+            userManager.removeByIndex(indexRoom);
+        } else {
+            System.out.println("No room have this code");
+        }
+    }
+
+    private static void removeIdolById(IdolManager idolManager, AccountManager userManager) {
+        System.out.println("Enter the id of idol");
+        Scanner newInputId = new Scanner(System.in);
+        String newId1 = newInputId.nextLine();
+        int index1 = idolManager.searchIndexById(newId1);
+        if (index1 != -1) {
+            idolManager.removeByIndex(index1);
+        } else {
+            System.out.println("No idol have this id");
+        }
+    }
+
+    private static void removeById(AccountManager userManager) {
+        System.out.println("Enter the id of user");
+        Scanner inputID = new Scanner(System.in);
+        String newId = inputID.nextLine();
+        int index = userManager.searchIndexById(newId);
+        if (index != -1) {
+            userManager.removeByIndex(index);
+        } else {
+            System.out.println("No user have this id");
+        }
+    }
+
+    private static void checkoutBillByID(IdolManager idolManager, RoomManager roomManager, BillManager billManager, AccountManager userManager, List<Bill> billList) {
+        System.out.println("Enter the id of Customer you want to check bill to pay today:");
+        Scanner inputIdOfCustomer = new Scanner(System.in);
+        String idOfCustomer = inputIdOfCustomer.nextLine();
+        Bill bill = billManager.searchByName(userManager.searchById(idOfCustomer).getUsername());
+        if (bill != null) {
+            bill.setCheckout(LocalTime.now());
+            System.out.println("Enter the code of Bill");
+            Scanner inputCode1 = new Scanner(System.in);
+            String code1 = inputCode1.nextLine();
+            bill.setCode(code1);
+            billManager.updateByIndex(billList.indexOf(bill), bill);
+            System.out.println("the money  need to pay is: " + billManager.getBillList().get(billManager.getBillList().indexOf(bill)).getMoneyToPay());
+            Idol idol1 = bill.getIdol();
+            int index = idolManager.searchIndexByIdol(idol1);
+            idol1.setStatus(false);
+            if (index != -1) {
+                idolManager.updateByIndex(index, idol1);
+            } else {
+                System.out.println("cant find this idol, index =-1");
+            }
+            Room room1 = bill.getRoom();
+            int index1 = roomManager.searchIndexByRoom(room1);
+            room1.setStatus(false);
+            if (index != -1) {
+                roomManager.updateByIndex(index1, room1);
+            } else {
+                System.out.println("cant find this idol, index =-1");
+            }
+        }
+    }
+
+    private static void creatNewRoom(RoomManager roomManager) {
+        System.out.println("Enter the type of Room(VIP, DELUXE, KING");
+        Scanner inputTypeRoom = new Scanner(System.in);
+        String typeRoom = inputTypeRoom.nextLine();
+        System.out.println("Enter the code of Room");
+        String code;
+        do {
+            Scanner inputCode = new Scanner(System.in);
+            code = inputCode.nextLine();
+        } while (roomManager.searchById(code) != null);
+        Room room = new Room();
+        switch (typeRoom) {
+            case "VIP":
+                room = RoomFactory.getRoom(RoomType.VIPROOM, code);
+                roomManager.saveList(room);
+
+                break;
+            case "DELUXE":
+                room = RoomFactory.getRoom(RoomType.DELUXERROOM, code);
+                roomManager.saveList(room);
+                break;
+            case "KING":
+                room = RoomFactory.getRoom(RoomType.KINGROOM, code);
+                roomManager.saveList(room);
+                break;
+            default:
+                System.out.println("NO TYPE ROOM LIKE THAT");
+                break;
+        }
+    }
+
+    private static void creatNewIdol(IdolManager idolManager, Pattern pattern) {
+        System.out.println("Enter the type of Idol (A, B or C):");
+        Scanner inputType = new Scanner(System.in);
+        String type = inputType.nextLine();
+        System.out.println("Enter the stage name of idol:");
+        Scanner inputStageName = new Scanner(System.in);
+        String stageName = inputStageName.nextLine();
+        String id;
+        do {
+            System.out.println("Enter the id of idol:");
+            Scanner inputId = new Scanner(System.in);
+            id = inputId.nextLine();
+        } while (idolManager.searchById(id) != null);
+
+        System.out.println("Enter the dob of idol:");
+        Scanner inputDOB = new Scanner(System.in);
+        String dOB = inputDOB.nextLine();
+        System.out.println("Enter the idol height");
+        double height = checkHeight(0, 200);
+
+        String body;
+        do {
+            System.out.println("Enter the Body Measurements");
+            Scanner inputBody = new Scanner(System.in);
+            body = inputBody.nextLine();
+        } while(!pattern.matcher(body).matches());
+        Idol idol;
+        if (type.equals("A")) {
+            idol = IdolFactory.getIdol(IdolType.IDOLA, stageName, dOB, height, body, id);
+            idolManager.saveList(idol);
+        } else if (type.equals("B")) {
+            idol = IdolFactory.getIdol(IdolType.IDOLB, stageName, dOB, height, body, id);
+            idolManager.saveList(idol);
+        } else if (type.equals("C")) {
+            idol = IdolFactory.getIdol(IdolType.IDOLC, stageName, dOB, height, body, id);
+            idolManager.saveList(idol);
+        } else {
+            System.out.println("No type of Idol is support");
+        }
+    }
+
+    private static Account creatNewAccount(AccountManager accountManager) {
         System.out.println("Enter the new username: ");
         Scanner inputNewUserName = new Scanner(System.in);
         String userName = inputNewUserName.nextLine();
@@ -245,8 +282,11 @@ public class MenuAdmin {
         Scanner inputNewPassword = new Scanner(System.in);
         String newPassword = inputNewPassword.nextLine();
         System.out.println("Enter the new id: ");
-        Scanner inputNewId = new Scanner(System.in);
-        String newId = inputNewId.nextLine();
+        String newId;
+        do {
+            Scanner inputNewId = new Scanner(System.in);
+            newId = inputNewId.nextLine();
+        } while (accountManager.searchById(newId) != null);
         System.out.println("Enter the new fullName");
         Scanner inputNewName = new Scanner(System.in);
         String fullName = inputNewName.nextLine();
@@ -268,14 +308,4 @@ public class MenuAdmin {
             }
         }
     }
-//    public static String checkId() {
-//
-//        while (true) {
-//            try {
-//                Scanner inputId = new Scanner(System.in);
-//                String id = inputId.nextLine();
-//                if ()
-//            }
-//        }
-//    }
 }

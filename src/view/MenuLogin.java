@@ -37,6 +37,7 @@ accountManager.saveList(account2);
 
         while (true) {
             System.out.println("-------Login to come to the Paradise Massage Club-------");
+            System.out.println("         ");
             System.out.println("Enter the username:");
             Scanner inputUsername = new Scanner(System.in);
             String username = inputUsername.nextLine();
