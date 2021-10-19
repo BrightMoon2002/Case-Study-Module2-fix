@@ -28,6 +28,7 @@ public class MenuAdmin {
 
     public static void menuAdmin() {
         Pattern pattern = Pattern.compile("\\d{1,3}[-]\\d{1,3}[-]\\d{1,3}");
+        Pattern pattern1 =  Pattern.compile("^([a-zA-Z0-9]{4,8})$");
         IdolManager idolManager = new IdolManager();
         RoomManager roomManager = new RoomManager();
         CustomerManager customerManager = new CustomerManager();
@@ -86,7 +87,7 @@ public class MenuAdmin {
                     changePasswordOfAccount(userManager, accountList, account);
                     break;
                 case 2:
-                    userManager.updateByIndex(accountList.indexOf(account), creatNewAccount(userManager));
+                    userManager.updateByIndex(accountList.indexOf(account), creatNewAccount(userManager,pattern1));
                     break;
                 case 3:
                     creatNewIdol(idolManager, pattern);
@@ -117,7 +118,7 @@ public class MenuAdmin {
                     removeRoomById(userManager);
                     break;
                 case 12:
-                    userManager.saveList(creatNewAccount(userManager));
+                    userManager.saveList(creatNewAccount(userManager, pattern1));
                     break;
                 case 0:
                     menuLogin.loginMenu();
@@ -274,16 +275,23 @@ public class MenuAdmin {
         }
     }
 
-    private static Account creatNewAccount(AccountManager accountManager) {
-        System.out.println("Enter the new username: ");
-        Scanner inputNewUserName = new Scanner(System.in);
-        String userName = inputNewUserName.nextLine();
-        System.out.println("Enter the new password: ");
-        Scanner inputNewPassword = new Scanner(System.in);
-        String newPassword = inputNewPassword.nextLine();
-        System.out.println("Enter the new id: ");
+    private static Account creatNewAccount(AccountManager accountManager, Pattern pattern) {
+        String userName;
+        do {
+            System.out.println("Enter the new username: ");
+            Scanner inputNewUserName = new Scanner(System.in);
+            userName = inputNewUserName.nextLine();
+        } while (accountManager.searchById(userName) != null || !pattern.matcher(userName).matches());
+        String newPassword;
+        do {
+            System.out.println("Enter the new password: ");
+            Scanner inputNewPassword = new Scanner(System.in);
+            newPassword = inputNewPassword.nextLine();
+        } while(!pattern.matcher(newPassword).matches());
+
         String newId;
         do {
+            System.out.println("Enter the new id: ");
             Scanner inputNewId = new Scanner(System.in);
             newId = inputNewId.nextLine();
         } while (accountManager.searchById(newId) != null);
