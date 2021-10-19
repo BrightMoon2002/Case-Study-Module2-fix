@@ -1,5 +1,6 @@
 package control;
 
+import model.idol.Idol;
 import model.room.Room;
 import storage.FileManagerRoom;
 
@@ -71,5 +72,16 @@ public class RoomManager implements IGeneralManager<Room>{
         ) {
             System.out.println(room);
         }
+    }
+
+    public int searchIndexByRoom(Room room) {
+        int index = -1;
+        for (int i = 0; i < roomList.size(); i++) {
+            if (roomList.get(i).getCode().equals(room.getCode())) {
+                index = i;
+                break;
+            }
+        }
+        return index;
     }
 }

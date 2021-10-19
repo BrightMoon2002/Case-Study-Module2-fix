@@ -121,6 +121,7 @@ import java.time.LocalTime;
             return "Bill{" +
                     "code='" + code + '\'' +
                     ", idol=" + idol +
+                    ", room=" + room +
                     ", account=" + account +
                     ", checkin=" + checkin +
                     ", checkout=" + checkout +

@@ -67,6 +67,17 @@ public class AccountManager implements IGeneralManager<Account>{
             return user;
         }
 
+        public int searchIndexById(String id) {
+            int index = -1;
+            for (int i = 0; i < accountList.size(); i++) {
+                if (accountList.get(i).getId().equals(id)) {
+                    index = i;
+                    break;
+                }
+            }
+            return index;
+        }
+
         @Override
         public Account searchByName(String name) {
             Account user = null;

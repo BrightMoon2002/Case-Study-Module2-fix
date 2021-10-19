@@ -22,5 +22,6 @@ public class IdolA extends Idol implements Serializable {
     }
 
 
+
 }
 

@@ -57,7 +57,7 @@ public class MenuCustomer {
 
         while (true) {
             Account account = userManager.searchByName(loginManager.getAccountList().get(0).getUsername());
-            System.out.println("Menu of Customer:");
+            System.out.println("--------Menu of Customer:-----------");
             System.out.println("1. Change password:");
             System.out.println("2. Change information of account");
             System.out.println("3. display list idol");
@@ -91,11 +91,13 @@ public class MenuCustomer {
                     Scanner inputIdRoom = new Scanner(System.in);
                     String idRoom = inputIdRoom.nextLine();
                     Room room = roomManager.searchById(idRoom);
-                    if (idol.isStatus() && room.isStatus()) {
+                    if (!idol.isStatus() && !room.isStatus()) {
                         Bill bill = new Bill(idol, room, account, LocalTime.now());
                         idolManager.getIdolList().get(idolManager.getIdolList().indexOf(idol)).setStatus(true);
                         roomManager.getRoomList().get(roomList.indexOf(room)).setStatus(true);
                         billManager.saveList(bill);
+                        idolManager.updateByIndex(idolList.indexOf(idol), idol);
+                        roomManager.updateByIndex(roomList.indexOf(room), room);
                         billManager.showAllList();
                     } else {
                         System.out.println("room or idol is busy, please choose again");
