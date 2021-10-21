@@ -57,13 +57,15 @@ public class MenuCustomer {
 
         while (true) {
             Account account = userManager.searchByName(loginManager.getAccountList().get(0).getUsername());
-            System.out.println("--------Menu of Customer:-----------");
-            System.out.println("1. Change password:");
-            System.out.println("2. Change information of account");
-            System.out.println("3. display list idol");
-            System.out.println("4. display list room");
-            System.out.println("5. pick idol and room");
-            System.out.println("0 . exit");
+            System.out.println("|--------------------------------------|");
+            System.out.println("|           Menu of Customer:          |");
+            System.out.println("|1.          Change password:          |");
+            System.out.println("|2.    Change information of account   |");
+            System.out.println("|3.         Display list idol          |");
+            System.out.println("|4.          Display list room         |");
+            System.out.println("|5.         Pick idol and room         |");
+            System.out.println("|0.               Back                 |");
+            System.out.println("|--------------------------------------|");
             Scanner inputChoice = new Scanner(System.in);
             int choice = inputChoice.nextInt();
             switch (choice) {
