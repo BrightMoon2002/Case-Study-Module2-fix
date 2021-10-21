@@ -47,9 +47,7 @@ accountManager.saveList(account2);
                 Scanner inputPassword = new Scanner(System.in);
                 String password = inputPassword.nextLine();
                 if (account.getPassword().equals(password)) {
-                    System.out.println("go to the menu");
                     if (account.getRole().equalsIgnoreCase("Admin")) {
-                        System.out.println("go menu admin");
                         loginManager.saveUser(account);
                         menuAdmin.menuAdmin();
 
@@ -58,10 +56,10 @@ accountManager.saveList(account2);
                         menuCustomer.menuCustomer();
                     }
                 } else {
-                    System.out.println("wrong password");
+                    System.err.println("wrong password");
                 }
             } else {
-                System.out.println("wrong user");
+                System.err.println("wrong user");
             }
 
 

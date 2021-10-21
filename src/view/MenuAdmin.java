@@ -143,7 +143,7 @@ public class MenuAdmin {
         if (indexRoom != -1) {
             userManager.removeByIndex(indexRoom);
         } else {
-            System.out.println("No room have this code");
+            System.err.println("No room have this code");
         }
     }
 
@@ -155,7 +155,7 @@ public class MenuAdmin {
         if (index1 != -1) {
             idolManager.removeByIndex(index1);
         } else {
-            System.out.println("No idol have this id");
+            System.err.println("No idol have this id");
         }
     }
 
@@ -167,7 +167,7 @@ public class MenuAdmin {
         if (index != -1) {
             userManager.removeByIndex(index);
         } else {
-            System.out.println("No user have this id");
+            System.err.println("No user have this id");
         }
     }
 
@@ -190,7 +190,7 @@ public class MenuAdmin {
             if (index != -1) {
                 idolManager.updateByIndex(index, idol1);
             } else {
-                System.out.println("cant find this idol, index =-1");
+                System.err.println("cant find this idol, index =-1");
             }
             Room room1 = bill.getRoom();
             int index1 = roomManager.searchIndexByRoom(room1);
@@ -198,7 +198,7 @@ public class MenuAdmin {
             if (index != -1) {
                 roomManager.updateByIndex(index1, room1);
             } else {
-                System.out.println("cant find this idol, index =-1");
+                System.err.println("cant find this idol, index =-1");
             }
         }
     }
@@ -271,7 +271,7 @@ public class MenuAdmin {
             idol = IdolFactory.getIdol(IdolType.IDOLC, stageName, dOB, height, body, id);
             idolManager.saveList(idol);
         } else {
-            System.out.println("No type of Idol is support");
+            System.err.println("No type of Idol is support");
         }
     }
 

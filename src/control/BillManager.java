@@ -53,7 +53,7 @@ public class BillManager implements IGeneralManager<Bill> {
     public Bill searchById(String id) {
         Bill bill = null;
         for (int i = billList.size()-1; i >= 0; i--) {
-            if (billList.get(i).getCode().equalsIgnoreCase(id)) {
+             if (billList.get(i).getCode().equalsIgnoreCase(id)) {
                 bill = billList.get(i);
                 break;
             }
