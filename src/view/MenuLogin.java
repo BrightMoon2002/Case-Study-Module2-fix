@@ -55,7 +55,7 @@ public class MenuLogin {
                     System.err.println("wrong password");
                 }
             } else {
-                System.err.println("wrong user");
+                System.err.println("No account have this user, try again pls");
             }
 
 
