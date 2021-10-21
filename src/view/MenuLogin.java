@@ -2,8 +2,6 @@ package view;
 
 import control.*;
 import login.Account;
-import login.AccountFactory;
-import login.AccountType;
 import storage.FileManagerAccount;
 import storage.FileManagerLogin;
 
@@ -25,10 +23,8 @@ public class MenuLogin {
         accountManager.setFileManagerUser(fileManagerUser);
         List<Account> userList = fileManagerUser.readList();
         accountManager.setUserList(userList);
-        Account account1 = AccountFactory.getAccount(AccountType.CUSTOMER, "Mark","123", "222", "Hoang");
-        accountManager.saveList(account1);
-        Account account2 = AccountFactory.getAccount(AccountType.ADMIN, "Admin1", "1", "1", "Tokuda");
-accountManager.saveList(account2);
+
+
         FileManagerLogin fileManagerLogin = FileManagerLogin.getInstance();
         loginManager.setFileManagerLogin(fileManagerLogin);
         List<Account> loginList = fileManagerLogin.readList();

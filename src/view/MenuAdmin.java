@@ -65,21 +65,22 @@ public class MenuAdmin {
 
         while (true) {
             Account account = userManager.searchByName(loginManager.getAccountList().get(0).getUsername());
-            System.out.println("---------Menu Admin----------");
-            System.out.println("Menu of Admin:");
-            System.out.println("1. Change password:");
-            System.out.println("2. Change information of account");
-            System.out.println("3. add new Idol");
-            System.out.println("4. add new Room");
-            System.out.println("5. display list idol");
-            System.out.println("6. display list room");
-            System.out.println("7. display list Bill");
-            System.out.println("8. Check Bill");
-            System.out.println("9. remove User By Id");
-            System.out.println("10. remove Idol by Id");
-            System.out.println("11. Remove Room by Id");
-            System.out.println("12. Creat new Member");
-            System.out.println("0. back");
+            System.out.println("|-----------------------------------|");
+            System.out.println("|            Menu of Admin:         |");
+            System.out.println("|1.         Change password:        |");
+            System.out.println("|2.   Change information of account |");
+            System.out.println("|3.          Add new Idol           |");
+            System.out.println("|4.          Add new Room           |");
+            System.out.println("|5.        Display list idol        |");
+            System.out.println("|6.        Display list room        |");
+            System.out.println("|7.        Display list Bill        |");
+            System.out.println("|8.           Check Bill            |");
+            System.out.println("|9.       Remove User By Id         |");
+            System.out.println("|10.      Remove Idol by Id         |");
+            System.out.println("|11.      Remove Room by Id         |");
+            System.out.println("|12.      Creat new Member          |");
+            System.out.println("|0.             Back                |");
+            System.out.println("|-----------------------------------|");
             Scanner inputChoice = new Scanner(System.in);
             int choice = inputChoice.nextInt();
             switch (choice) {
