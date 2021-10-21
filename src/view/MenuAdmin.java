@@ -4,7 +4,7 @@ import control.*;
 import login.Account;
 import login.AccountFactory;
 import login.AccountType;
-import model.Bill;
+import model.pay.Bill;
 import model.idol.Idol;
 import model.idol.IdolFactory;
 import model.idol.IdolType;

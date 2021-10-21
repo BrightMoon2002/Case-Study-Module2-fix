@@ -1,4 +1,4 @@
-package model;
+package model.pay;
 
 import login.Account;
 import model.idol.Idol;

@@ -1,6 +1,6 @@
 package control;
 
-import model.Bill;
+import model.pay.Bill;
 import storage.FileManagerBill;
 
 import java.util.List;

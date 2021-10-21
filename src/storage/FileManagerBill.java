@@ -1,6 +1,6 @@
 package storage;
 
-import model.Bill;
+import model.pay.Bill;
 
 import java.io.*;
 import java.util.ArrayList;
