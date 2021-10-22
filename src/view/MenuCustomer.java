@@ -85,25 +85,7 @@ public class MenuCustomer {
                     roomManager.showAllList();
                     break;
                 case 5:
-                    System.out.println("Enter the id of idol you want her to serve you");
-                    Scanner inputId = new Scanner(System.in);
-                    String id = inputId.nextLine();
-                    Idol idol = idolManager.searchById(id);
-                    System.out.println("Enter the id of room you want to use");
-                    Scanner inputIdRoom = new Scanner(System.in);
-                    String idRoom = inputIdRoom.nextLine();
-                    Room room = roomManager.searchById(idRoom);
-                    if (!idol.isStatus() && !room.isStatus()) {
-                        Bill bill = new Bill(idol, room, account, LocalTime.now());
-                        idolManager.getIdolList().get(idolManager.getIdolList().indexOf(idol)).setStatus(true);
-                        roomManager.getRoomList().get(roomList.indexOf(room)).setStatus(true);
-                        billManager.saveList(bill);
-                        idolManager.updateByIndex(idolList.indexOf(idol), idol);
-                        roomManager.updateByIndex(roomList.indexOf(room), room);
-                        System.out.println("Please go to the room: " + idRoom + " and wait idol" + idol);
-                    } else {
-                        System.err.println("room or idol is busy, please choose again");
-                    }
+                    bookIdolAndRoom(idolManager, roomManager, billManager, idolList, roomList, account);
                     break;
                 case 0:
                     menuLogin.loginMenu();
@@ -112,6 +94,28 @@ public class MenuCustomer {
         }
 
 
+    }
+
+    private static void bookIdolAndRoom(IdolManager idolManager, RoomManager roomManager, BillManager billManager, List<Idol> idolList, List<Room> roomList, Account account) {
+        System.out.println("Enter the id of idol you want her to serve you");
+        Scanner inputId = new Scanner(System.in);
+        String id = inputId.nextLine();
+        Idol idol = idolManager.searchById(id);
+        System.out.println("Enter the id of room you want to use");
+        Scanner inputIdRoom = new Scanner(System.in);
+        String idRoom = inputIdRoom.nextLine();
+        Room room = roomManager.searchById(idRoom);
+        if (!idol.isStatus() && !room.isStatus()) {
+            Bill bill = new Bill(idol, room, account, LocalTime.now());
+            idolManager.getIdolList().get(idolManager.getIdolList().indexOf(idol)).setStatus(true);
+            roomManager.getRoomList().get(roomList.indexOf(room)).setStatus(true);
+            billManager.saveList(bill);
+            idolManager.updateByIndex(idolList.indexOf(idol), idol);
+            roomManager.updateByIndex(roomList.indexOf(room), room);
+            System.out.println("Please go to the room: " + idRoom + " and wait idol" + idol);
+        } else {
+            System.err.println("room or idol is busy, please choose again");
+        }
     }
 
     private static Account creatNewAccount() {
