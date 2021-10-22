@@ -100,7 +100,7 @@ public class MenuCustomer {
                         billManager.saveList(bill);
                         idolManager.updateByIndex(idolList.indexOf(idol), idol);
                         roomManager.updateByIndex(roomList.indexOf(room), room);
-                        billManager.showAllList();
+                        System.out.println("Please go to the room: " + idRoom + " and wait idol" + idol);
                     } else {
                         System.err.println("room or idol is busy, please choose again");
                     }
