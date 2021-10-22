@@ -188,6 +188,7 @@ public class MenuAdmin {
             Idol idol1 = bill.getIdol();
             int index = idolManager.searchIndexByIdol(idol1);
             idol1.setStatus(false);
+            idol1.setCountChecker(idol1.getCountChecker()+1);
             if (index != -1) {
                 idolManager.updateByIndex(index, idol1);
             } else {
