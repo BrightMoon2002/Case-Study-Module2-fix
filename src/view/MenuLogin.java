@@ -34,31 +34,34 @@ public class MenuLogin {
         while (true) {
             System.out.println("-------Login to come to the Paradise Massage Club-------");
             System.out.println("         ");
-            System.out.println("Enter the username:");
-            Scanner inputUsername = new Scanner(System.in);
-            String username = inputUsername.nextLine();
-            Account account = accountManager.searchByName(username);
-            if (account != null) {
-                System.out.println("Enter the password:");
-                Scanner inputPassword = new Scanner(System.in);
-                String password = inputPassword.nextLine();
-                if (account.getPassword().equals(password)) {
-                    if (account.getRole().equalsIgnoreCase("Admin")) {
-                        loginManager.saveUser(account);
-                        menuAdmin.menuAdmin();
+            loginMenu(accountManager, loginManager);
 
-                    } else {
-                        loginManager.saveUser(account);
-                        menuCustomer.menuCustomer();
-                    }
+        }
+    }
+
+    private static void loginMenu(AccountManager accountManager, LoginManager loginManager) {
+        System.out.println("Enter the username:");
+        Scanner inputUsername = new Scanner(System.in);
+        String username = inputUsername.nextLine();
+        Account account = accountManager.searchByName(username);
+        if (account != null) {
+            System.out.println("Enter the password:");
+            Scanner inputPassword = new Scanner(System.in);
+            String password = inputPassword.nextLine();
+            if (account.getPassword().equals(password)) {
+                if (account.getRole().equalsIgnoreCase("Admin")) {
+                    loginManager.saveUser(account);
+                    menuAdmin.menuAdmin();
+
                 } else {
-                    System.err.println("wrong password");
+                    loginManager.saveUser(account);
+                    menuCustomer.menuCustomer();
                 }
             } else {
-                System.err.println("No account have this user, try again pls");
+                System.err.println("wrong password");
             }
-
-
+        } else {
+            System.err.println("No account have this user, try again pls");
         }
     }
 }
