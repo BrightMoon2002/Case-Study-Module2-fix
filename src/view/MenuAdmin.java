@@ -295,7 +295,7 @@ public class MenuAdmin {
             System.out.println("Enter the new username: ");
             Scanner inputNewUserName = new Scanner(System.in);
             userName = inputNewUserName.nextLine();
-        } while (accountManager.searchById(userName) != null || !pattern.matcher(userName).matches());
+        } while (accountManager.searchById(userName) != null || !pattern.matcher(userName).matches() || accountManager.searchByName(userName) != null);
         String newPassword;
         do {
             System.out.println("Enter the new password: ");
