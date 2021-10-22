@@ -95,6 +95,27 @@ public class IdolManager implements IGeneralManager<Idol> {
         }
         return index;
     }
+    public void showAIdolList(List<Idol> idolList) {
+        for (int i = 0; i < idolList.size(); i++) {
+            if (idolList.get(i).getTip() == 500) {
+                System.out.println(idolList.get(i));
+            }
+        }
+    }
+    public void showBIdolList(List<Idol> idolList) {
+        for (int i = 0; i < idolList.size(); i++) {
+            if (idolList.get(i).getTip() == 300) {
+                System.out.println(idolList.get(i));
+            }
+        }
+    }
+    public void showCIdolList(List<Idol> idolList) {
+        for (int i = 0; i < idolList.size(); i++) {
+            if (idolList.get(i).getTip() == 200) {
+                System.out.println(idolList.get(i));
+            }
+        }
+    }
 
     @Override
     public void showAllList() {

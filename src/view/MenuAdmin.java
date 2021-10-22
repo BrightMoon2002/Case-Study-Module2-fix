@@ -79,6 +79,9 @@ public class MenuAdmin {
             System.out.println("|10.      Remove Idol by Id         |");
             System.out.println("|11.      Remove Room by Id         |");
             System.out.println("|12.      Creat new Member          |");
+            System.out.println("|13.      Show list A idol          |");
+            System.out.println("|14.      Show list B idol          |");
+            System.out.println("|15.      Show list C idol          |");
             System.out.println("|0.             Back                |");
             System.out.println("|-----------------------------------|");
             Scanner inputChoice = new Scanner(System.in);
@@ -120,6 +123,15 @@ public class MenuAdmin {
                     break;
                 case 12:
                     userManager.saveList(creatNewAccount(userManager, pattern1));
+                    break;
+                case 13:
+                    idolManager.showAIdolList(idolList);
+                    break;
+                case 14:
+                    idolManager.showBIdolList(idolList);
+                    break;
+                case 15:
+                    idolManager.showCIdolList(idolList);
                     break;
                 case 0:
                     menuLogin.loginMenu();
@@ -303,6 +315,7 @@ public class MenuAdmin {
         Account newUser = AccountFactory.getAccount(AccountType.CUSTOMER, userName, newPassword, newId, fullName);
         return newUser;
     }
+
 
     public static double checkHeight(double min, double max) {
         Scanner sc = new Scanner(System.in);
